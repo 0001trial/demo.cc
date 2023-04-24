@@ -1,4 +1,3 @@
-
 local Players, Client, Mouse, RS, Camera =
 game:GetService("Players"),
 game:GetService("Players").LocalPlayer,
@@ -20,8 +19,8 @@ Aim_AssistCircle.Thickness = 1
             return Aim_AssistCircle
         end
 -- yeah im not adding more stuff to this        
-Aim_AssistCircle.Visible  = getgenv().Eternal.FOV_2.Visible
-Aim_AssistCircle.Radius   = getgenv().Eternal.FOV_2.Radius * 3
+Aim_AssistCircle.Visible  = getgenv().demo.FOV_2.Visible
+Aim_AssistCircle.Radius   = getgenv().demo.FOV_2.Radius * 3
 Aim_AssistCircle.Position = Vector2.new(Mouse.X, Mouse.Y + (game:GetService("GuiService"):GetGuiInset().Y))
    return Aim_AssistCircle
 end 
@@ -62,7 +61,7 @@ end
         
         for _ ,v in pairs(Players:GetPlayers()) do
             if (v.Character and v ~= Client and v.Character:FindFirstChild("HumanoidRootPart")) then
-                if getgenv().Eternal.Checks.WallCheckPlr then
+                if getgenv().demo.Checks.WallCheckPlr then
                     local Position, OnScreen = Camera:WorldToScreenPoint(v.Character.HumanoidRootPart.Position)
                     local Distance = (Vector2.new(Position.X, Position.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
             
@@ -70,7 +69,7 @@ end
                         Closest = Distance
                         Target = v
                     end
-                    elseif getgenv().Eternal.Aim_Assist.Visible_Check then
+                    elseif getgenv().demo.Aim_Assist.Visible_Check then
                         local Position, OnScreen = Camera:WorldToScreenPoint(v.Character.HumanoidRootPart.Position)
                         local Distance = (Vector2.new(Position.X, Position.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
                         if (Aim_AssistCircle.Radius > Distance and Distance < Closest and OnScreen) and WallCheck(v.Character.HumanoidRootPart.Position, {Client, v.Character}) then
@@ -132,8 +131,8 @@ end
 --// knocked check
 
     RS.RenderStepped:Connect(function()
-        if getgenv().Eternal.Aim_Assist.Enabled == true then
-            if getgenv().Eternal.Checks.CheckIfKnocked == true and Plr and Plr.Character then 
+        if getgenv().demo.Aim_Assist.Enabled == true then
+            if getgenv().demo.Checks.CheckIfKnocked == true and Plr and Plr.Character then 
                 local KOd = Plr.Character:WaitForChild("BodyEffects")["K.O"].Value
                 local Grabbed = Plr.Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
                 if KOd or Grabbed then
@@ -146,7 +145,7 @@ end
             
             -- unlock on players death (enemy)
             
-            if getgenv().Eternal.Aim_Assist.UnlockOnPlrsDeath == true and Plr and Plr.Character:FindFirstChild("Humanoid") then
+            if getgenv().demo.Aim_Assist.UnlockOnPlrsDeath == true and Plr and Plr.Character:FindFirstChild("Humanoid") then
                 if Plr.Character.Humanoid.health < 4 then
                     Plr = nil
                     IsTargetting = false
@@ -154,31 +153,31 @@ end
             end
             
 -- shake function
-            if getgenv().Eternal.Aim_Assist.PredictPlr and Plr and Plr.Character and Plr.Character:FindFirstChild(getgenv().Eternal.Aim_Assist.Part) then
-                if getgenv().Eternal.Aim_Assist.Shake then
-                    local Main = CFrame.new(Camera.CFrame.p,Plr.Character[getgenv().Eternal.Aim_Assist.Part].Position + Plr.Character[getgenv().Eternal.Aim_Assist.Part].Velocity * getgenv().Eternal.Aim_Assist.Prediction +
+            if getgenv().demo.Aim_Assist.PredictPlr and Plr and Plr.Character and Plr.Character:FindFirstChild(getgenv().demo.Aim_Assist.Part) then
+                if getgenv().demo.Aim_Assist.Shake then
+                    local Main = CFrame.new(Camera.CFrame.p,Plr.Character[getgenv().demo.Aim_Assist.Part].Position + Plr.Character[getgenv().demo.Aim_Assist.Part].Velocity * getgenv().demo.Aim_Assist.Prediction +
                     Vector3.new(
-                        math.random(-getgenv().Eternal.Aim_Assist.Shake_value.X, getgenv().Eternal.Aim_Assist.Shake_value.X),
-                        math.random(-getgenv().Eternal.Aim_Assist.Shake_value.Y, getgenv().Eternal.Aim_Assist.Shake_value.Y),
-                        math.random(-getgenv().Eternal.Aim_Assist.Shake_value.Z, getgenv().Eternal.Aim_Assist.Shake_value.Z)
+                        math.random(-getgenv().demo.Aim_Assist.Shake_value.X, getgenv().demo.Aim_Assist.Shake_value.X),
+                        math.random(-getgenv().demo.Aim_Assist.Shake_value.Y, getgenv().demo.Aim_Assist.Shake_value.Y),
+                        math.random(-getgenv().demo.Aim_Assist.Shake_value.Z, getgenv().demo.Aim_Assist.Shake_value.Z)
                     ) * 0.1)
-                    Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().Eternal.Aim_Assist.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+                    Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().demo.Aim_Assist.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
                 else
-                    local Main = CFrame.new(Camera.CFrame.p,Plr.Character[getgenv().Eternal.Aim_Assist.Part].Position + Plr.Character[getgenv().Eternal.Aim_Assist.Part].Velocity * getgenv().Eternal.Aim_Assist.Prediction)
-                    Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().Eternal.Aim_Assist.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+                    local Main = CFrame.new(Camera.CFrame.p,Plr.Character[getgenv().demo.Aim_Assist.Part].Position + Plr.Character[getgenv().demo.Aim_Assist.Part].Velocity * getgenv().demo.Aim_Assist.Prediction)
+                    Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().demo.Aim_Assist.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
                 end
-            elseif getgenv().Eternal.Aim_Assist.PredictPlr == false and Plr and Plr.Character and Plr.Character:FindFirstChild(getgenv().Eternal.Aim_Assist.Part) then
-                if getgenv().Eternal.Aim_Assist.Shake then
-                    local Main = CFrame.new(Camera.CFrame.p,Plr.Character[getgenv().Eternal.Aim_Assist.Part].Position +
+            elseif getgenv().demo.Aim_Assist.PredictPlr == false and Plr and Plr.Character and Plr.Character:FindFirstChild(getgenv().demo.Aim_Assist.Part) then
+                if getgenv().demo.Aim_Assist.Shake then
+                    local Main = CFrame.new(Camera.CFrame.p,Plr.Character[getgenv().demo.Aim_Assist.Part].Position +
                     Vector3.new(
-                        math.random(-getgenv().Eternal.Aim_Assist.Shake_value.X, getgenv().Eternal.Aim_Assist.Shake_value.X),
-                        math.random(-getgenv().Eternal.Aim_Assist.Shake_value.Y, getgenv().Eternal.Aim_Assist.Shake_value.Y),
-                        math.random(-getgenv().Eternal.Aim_Assist.Shake_value.Z, getgenv().Eternal.Aim_Assist.Shake_value.Z)
+                        math.random(-getgenv().demo.Aim_Assist.Shake_value.X, getgenv().demo.Aim_Assist.Shake_value.X),
+                        math.random(-getgenv().demo.Aim_Assist.Shake_value.Y, getgenv().demo.Aim_Assist.Shake_value.Y),
+                        math.random(-getgenv().demo.Aim_Assist.Shake_value.Z, getgenv().demo.Aim_Assist.Shake_value.Z)
                     ) * 0.1)
-                    Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().Eternal.Aim_Assist.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+                    Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().demo.Aim_Assist.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
                 else
-                    local Main = CFrame.new(Camera.CFrame.p,Plr.Character[getgenv().Eternal.Aim_Assist.Part].Position)
-                    Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().Eternal.Aim_Assist.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+                    local Main = CFrame.new(Camera.CFrame.p,Plr.Character[getgenv().demo.Aim_Assist.Part].Position)
+                    Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().demo.Aim_Assist.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
                 end
             end
         end
@@ -187,8 +186,8 @@ end
     task.spawn(function ()
         while task.wait() do
             if Plr then
-                if getgenv().Eternal.Aim_Assist.Enabled and (Plr.Character) and getgenv().Eternal.Aim_Assist.Nearestpart then
-                    getgenv().Eternal.Aim_Assist.Part = tostring(GetClosestBodyPartV2(Plr.Character))
+                if getgenv().demo.Aim_Assist.Enabled and (Plr.Character) and getgenv().demo.Aim_Assist.Nearestpart then
+                    getgenv().demo.Aim_Assist.Part = tostring(GetClosestBodyPartV2(Plr.Character))
                 end
             end
         end
@@ -197,9 +196,9 @@ end
 --// aim assist toggle
 
     Mouse.KeyDown:Connect(function(Key)
-        local Keybind = getgenv().Eternal.Aim_Assist.Key:lower()
+        local Keybind = getgenv().demo.Aim_Assist.Key:lower()
         if (Key == Keybind) then
-            if getgenv().Eternal.Aim_Assist.Enabled == true then
+            if getgenv().demo.Aim_Assist.Enabled == true then
                 IsTargetting = not IsTargetting
                 if IsTargetting then
                     Plr = ClosestPlrFromMouse2()
@@ -213,7 +212,7 @@ end
         end
     end)        -- disable outside of fov
     
-                if getgenv().Eternal.Safety_Measures.DisableOutSideOfFOV == true and Plr and Plr.Character and Plr.Character:WaitForChild("HumanoidRootPart") then
+                if getgenv().demo.Safety_Measures.DisableOutSideOfFOV == true and Plr and Plr.Character and Plr.Character:WaitForChild("HumanoidRootPart") then
                 if
                 Aim_AssistCircle.Radius <
                     (Vector2.new(
@@ -241,10 +240,10 @@ end
     -- locals and the color and shit
     local Circle = Drawing.new("Circle")
     Circle.Color = Color3.new(0, 0, 0)
-    Circle.Transparency = getgenv().Eternal.FOV["Transparency"]
-    Circle.Thickness = getgenv().Eternal.FOV["Thickness"]
-	Circle.Filled = getgenv().Eternal.FOV["Filled"]
-    Circle.NumSides = getgenv().Eternal.FOV["NumSides"]
+    Circle.Transparency = getgenv().demo.FOV["Transparency"]
+    Circle.Thickness = getgenv().demo.FOV["Thickness"]
+	Circle.Filled = getgenv().demo.FOV["Filled"]
+    Circle.NumSides = getgenv().demo.FOV["NumSides"]
     
     local Prey
     local On
@@ -262,13 +261,13 @@ end
     
 -- rainbow fov function
 
-    if getgenv().Eternal.FOV.Rainbow then
+    if getgenv().demo.FOV.Rainbow then
         Circle.Color = Color3.fromHSV((tick() % 2 / 2), 1, 1)
-    elseif not getgenv().Eternal.FOV.Rainbow then
-	Circle.Color = getgenv().Eternal.FOV["Color"]
+    elseif not getgenv().demo.FOV.Rainbow then
+	Circle.Color = getgenv().demo.FOV["Color"]
     end
-    Circle.Visible = getgenv().Eternal.FOV["Visible"]
-    Circle.Radius = getgenv().Eternal.FOV["Radius"] * 3.05
+    Circle.Visible = getgenv().demo.FOV["Visible"]
+    Circle.Radius = getgenv().demo.FOV["Radius"] * 3.05
     Circle.Position = Vec2(Mouse)
 
     return Circle
@@ -282,7 +281,7 @@ end
     -- wallcheck
     
     local WallCheck = function(destination, ignore)
-    if getgenv().Eternal.BulletAssist.WallChecked then
+    if getgenv().demo.BulletAssist.WallChecked then
         local Origin = Camera.CFrame.p
         local CheckRay = Ray.new(Origin, destination - Origin)
         local Hit = game.workspace:FindPartOnRayWithIgnoreList(CheckRay, ignore)
@@ -316,15 +315,15 @@ end
     -- ko check
     
     function TargetChecks(Target)
-    if getgenv().Eternal.BulletAssist.KoCheck == true and Target.Character then
+    if getgenv().demo.BulletAssist.KoCheck == true and Target.Character then
         return Target.Character.BodyEffects["K.O"].Value and true or false
     end
     return false
     end
     -- some velocity typa sh ur able to replace with md
     function PredictionictTargets(Target, Value)
-    return Target.Character[getgenv().Eternal.BulletAssist.HitPart].CFrame +
-        (Target.Character[getgenv().Eternal.BulletAssist.HitPart].Velocity * Value)
+    return Target.Character[getgenv().demo.BulletAssist.HitPart].CFrame +
+        (Target.Character[getgenv().demo.BulletAssist.HitPart].Velocity * Value)
     end
     
     local WTS = function(Object)
@@ -369,8 +368,8 @@ end
     RS.RenderStepped:Connect(
     function()
         if Prey then
-            if Prey ~= nil and getgenv().Eternal.BulletAssist.Enabled and getgenv().Eternal.BulletAssist.NearestPart == true then
-                getgenv().Eternal.BulletAssist["HitPart"] = tostring(GetClosestBodyPart(Prey.Character))
+            if Prey ~= nil and getgenv().demo.BulletAssist.Enabled and getgenv().demo.BulletAssist.NearestPart == true then
+                getgenv().demo.BulletAssist["HitPart"] = tostring(GetClosestBodyPart(Prey.Character))
             end
         end
     end
@@ -382,11 +381,11 @@ end
     
     Mouse.KeyDown:Connect(
       function(Key)
-        if (Key == getgenv().Eternal.BulletAssist.Toggle:lower()) then
-            if getgenv().Eternal.BulletAssist.Enabled == true then
-                getgenv().Eternal.BulletAssist.Enabled = false
+        if (Key == getgenv().demo.BulletAssist.Toggle:lower()) then
+            if getgenv().demo.BulletAssist.Enabled == true then
+                getgenv().demo.BulletAssist.Enabled = false
             else
-                getgenv().Eternal.BulletAssist.Enabled = true
+                getgenv().demo.BulletAssist.Enabled = true
             end
         end
       end
@@ -406,8 +405,8 @@ end
     function(self, v)
         if Mouse and (table.find(properties, v)) then
             Prey = GetClosestToMouse()
-            if Prey ~= nil and getgenv().Eternal.BulletAssist.Enabled and not TargetChecks(Prey) then
-                local endpoint = PredictionictTargets(Prey, getgenv().Eternal.BulletAssist.Prediction)
+            if Prey ~= nil and getgenv().demo.BulletAssist.Enabled and not TargetChecks(Prey) then
+                local endpoint = PredictionictTargets(Prey, getgenv().demo.BulletAssist.Prediction)
     
                 return (table.find(properties, tostring(v)) and endpoint)
             end
@@ -419,11 +418,11 @@ end
     -- airshot func
     
     RS.Heartbeat:Connect(function()
-    if getgenv().Eternal.BulletAssist.AirShot_Function == true and Prey.Character:FindFirstChild("Humanoid") then
+    if getgenv().demo.BulletAssist.AirShot_Function == true and Prey.Character:FindFirstChild("Humanoid") then
         if Prey.Character.Humanoid.FloorMaterial == Enum.Material.Air and Prey.Character.Humanoid.Jump == true then
-        getgenv().Eternal.BulletAssist.HitPart = getgenv().Eternal.BulletAssist.Airshot_Part
+        getgenv().demo.BulletAssist.HitPart = getgenv().demo.BulletAssist.Airshot_Part
         else
-        getgenv().Eternal.BulletAssist.HitPart = getgenv().Eternal.BulletAssist.HitPart
+        getgenv().demo.BulletAssist.HitPart = getgenv().demo.BulletAssist.HitPart
            end
         end
     end)
@@ -433,57 +432,57 @@ end
     -- auto prediction 
     
 
-while getgenv().Eternal.Auto_Prediction.Enabled == true do
+while getgenv().demo.Auto_Prediction.Enabled == true do
     local Ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
     local pingNumber = string.split(Ping, " ")[1] -10
         if pingNumber < 10 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_10
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_10
         elseif pingNumber < 20 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_20
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_20
         elseif pingNumber < 30 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_30
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_30
         elseif pingNumber < 40 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_40
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_40
         elseif pingNumber < 50 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_50
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_50
         elseif pingNumber < 60 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_60
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_60
         elseif pingNumber < 70 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_70
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_70
         elseif pingNumber < 80 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_80
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_80
         elseif pingNumber < 90 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_90
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_90
         elseif pingNumber < 100 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_100
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_100
         elseif pingNumber < 110 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_110
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_110
         elseif pingNumber < 120 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_120
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_120
         elseif pingNumber < 130 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_130
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_130
         elseif pingNumber < 140 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_140
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_140
         elseif pingNumber < 150 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_150
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_150
         elseif pingNumber < 160 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_160
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_160
         elseif pingNumber < 170 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_170
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_170
         elseif pingNumber < 180 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_180
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_180
         elseif pingNumber < 190 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_190
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_190
         elseif pingNumber < 200 then
-        getgenv().Eternal.BulletAssist.Prediction = getgenv().Eternal.Auto_Prediction.Ping_200
+        getgenv().demo.BulletAssist.Prediction = getgenv().demo.Auto_Prediction.Ping_200
 
     end
-    wait(getgenv().Eternal.Auto_Prediction.Refresh_Rate)
+    wait(getgenv().demo.Auto_Prediction.Refresh_Rate)
 end
 
 -- disables aim assist when knocked
 
-if getgenv().Eternal.Checks.DisableWhenYourKnocked == true and Plr and Plr.Character:FindFirstChild("Humanoid") then
+if getgenv().demo.Checks.DisableWhenYourKnocked == true and Plr and Plr.Character:FindFirstChild("Humanoid") then
 			if Client.Character.Humanoid.health < 1 then
 				Plr = nil
 				IsTargetting = false
@@ -492,7 +491,7 @@ if getgenv().Eternal.Checks.DisableWhenYourKnocked == true and Plr and Plr.Chara
 	
 -- grabbed checks
 
-    if getgenv().Eternal.Checks.Grabbed_Check == true and player and player.Character then
+    if getgenv().demo.Checks.Grabbed_Check == true and player and player.Character then
         if player.Character:FindFirstChild("GRABBING_CONSTRAINT") then
             return true
         end
@@ -500,7 +499,7 @@ end
 
 -- crew checks
 
-if getgenv().Eternal.Checks.Crew_check == true then
+if getgenv().demo.Checks.Crew_check == true then
 while true do
 local newPlayer = game.Players.PlayerAdded:wait()
 if player:IsInGroup(newPlayer.Group) then
@@ -514,42 +513,42 @@ local Player = game:GetService("Players").LocalPlayer
 local Mouse = Player:GetMouse()
 local SpeedGlitch = false
 Mouse.KeyDown:Connect(function(Key)
-    if Key == (Eternal.Macro.Key) and Eternal.Macro.Type == "IOIO" then
+    if Key == (demo.Macro.Key) and demo.Macro.Type == "IOIO" then
     SpeedGlitch = not SpeedGlitch
     if SpeedGlitch == true then
-    repeat task.wait(getgenv().Eternal.Macro.Speed / 100)
+    repeat task.wait(getgenv().demo.Macro.Speed / 100)
     game:GetService("VirtualInputManager"):SendKeyEvent(true, "I", false, game)
-    task.wait(getgenv().Eternal.Macro.Speed / 100)
+    task.wait(getgenv().demo.Macro.Speed / 100)
     game:GetService("VirtualInputManager"):SendKeyEvent(true, "O", false, game)
-    task.wait(getgenv().Eternal.Macro.Speed / 100)
+    task.wait(getgenv().demo.Macro.Speed / 100)
     game:GetService("VirtualInputManager"):SendKeyEvent(true, "I", false, game)
-    task.wait(getgenv().Eternal.Macro.Speed / 100)
+    task.wait(getgenv().demo.Macro.Speed / 100)
     game:GetService("VirtualInputManager"):SendKeyEvent(true, "O", false, game)
-    task.wait(getgenv().Eternal.Macro.Speed / 100)
+    task.wait(getgenv().demo.Macro.Speed / 100)
     until SpeedGlitch == false
 end
 end
 end)
     Mouse.KeyDown:Connect(function(Key)
-    if Key == (Eternal.Macro.Key) and Eternal.Macro.Type == "First Person" then
+    if Key == (demo.Macro.Key) and demo.Macro.Type == "First Person" then
     SpeedGlitch = not SpeedGlitch
     if SpeedGlitch == true then
-    repeat task.wait(getgenv().Eternal.Macro.Speed / 100)
+    repeat task.wait(getgenv().demo.Macro.Speed / 100)
     game:GetService("VirtualInputManager"):SendMouseWheelEvent("0", "0", true, game)
-    task.wait(getgenv().Eternal.Macro.Speed / 100)
+    task.wait(getgenv().demo.Macro.Speed / 100)
     game:GetService("VirtualInputManager"):SendMouseWheelEvent("0", "0", false, game)
-    task.wait(getgenv().Eternal.Macro.Speed / 100)
+    task.wait(getgenv().demo.Macro.Speed / 100)
     game:GetService("VirtualInputManager"):SendMouseWheelEvent("0", "0", true, game)
-    task.wait(getgenv().Eternal.Macro.Speed / 100)
+    task.wait(getgenv().demo.Macro.Speed / 100)
     game:GetService("VirtualInputManager"):SendMouseWheelEvent("0", "0", false, game)
-    task.wait(getgenv().Eternal.Macro.Speed / 100)
+    task.wait(getgenv().demo.Macro.Speed / 100)
     until SpeedGlitch == false
 end
 end
 end)
 
 
-if getgenv().Eternal.Resolver.Velocity_Recalculation then
+if getgenv().demo.Resolver.Velocity_Recalculation then
 local function get_calculated_velocity(obj)
     if nil_check(obj) and obj.Character and obj.Character:FindFirstChild(partlol) then
         local root = obj.Character.HumanoidRootPart
@@ -573,4 +572,3 @@ local function get_calculated_velocity(obj)
     end
 end
       end
-   
