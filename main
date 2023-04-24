@@ -507,7 +507,6 @@ table.insert(Ignored.Players, newPlayer)
 end
 end
 end
-f
 
 local Player = game:GetService("Players").LocalPlayer
 local Mouse = Player:GetMouse()
